@@ -1,16 +1,30 @@
 # neovim rust IDE
 
+If you are looking to learn Rust, [this blog post](https://blog.gheo.tech/posts/learning-rust/) contains a lot of useful information.
+
+## features
+
+* autocomplete
+* errors
+* modified melange theme
+* tree folder view
+* fish shell
+
+## run as a container
+
 To create image and to test, run:
 
 ```
-podman build -t g00n1x/nvim-rust-ide .
-podman run -td --name nvim-rust-ide g00n1x/nvim-rust-ide
-podman exec -it --detach-keys nvim-rust-ide fish
+docker build -t ghe0/nvim-rust-ide .
+docker run -td --name nvim-rust-ide ghe0/nvim-rust-ide
+docker exec -it nvim-rust-ide fish
 ```
 
-The first time you open nvim, you must run `:PackerInstall`.
-
 You can also mount git projects and your SSH key in case you need git operations.
+
+## install to your ${HOME}
+
+Running [install.sh](install.sh) should actually work fine on any popular distro. Please read the script before running it.
 
 ## hotkeys:
 

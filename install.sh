@@ -13,7 +13,7 @@ ln -s ${HOME}/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin/rust-analy
  /usr/local/bin/rust-analyzer
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  ${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 mv ${HOME}/.config/nvim/init.lua_final ${HOME}/.config/nvim/init.lua
@@ -21,7 +21,7 @@ mv ${HOME}/.config/nvim/init.lua_final ${HOME}/.config/nvim/init.lua
 usermod -s /usr/sbin/fish root
 fish -c "fish_add_path -aU ${HOME}/.cargo/bin/"
 fish -c "fish_config prompt choose terlar && echo y | fish_config prompt save"
-sed -i '2i \ \ \ \ echo (pwd) > ${HOME}/.last_folder' ${HOME}/.config/fish/functions/fish_prompt.fish
+sed -i '2i \ \ \ \ echo (pwd) > ~/.last_folder' ${HOME}/.config/fish/functions/fish_prompt.fish
 
 echo "vim.cmd [[colorscheme melange]]" >> ${HOME}/.config/nvim/init.lua
 sed -i "s/highlight Normal guifg=#ECE1D7 guibg=#2A2520 guisp=NONE gui=NONE/highlight Normal guifg=#ECE1D7 guibg=#000000 guisp=NONE gui=NONE/" ${HOME}/.local/share/nvim/site/pack/packer/start/melange/colors/melange.vim
