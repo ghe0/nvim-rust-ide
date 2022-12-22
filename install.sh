@@ -1,8 +1,5 @@
 #!/bin/bash
 
-pacman -Syu --noconfirm --noprogressbar
-pacman -S --noconfirm --noprogressbar --needed fish git base-devel neovim
-
 curl -s https://sh.rustup.rs > rust.sh
 sh rust.sh -y && rm rust.sh
 rustup default stable

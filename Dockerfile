@@ -11,4 +11,6 @@ env TERM="xterm-256color"
 
 copy install.sh /root/install.sh
 run chmod +x install.sh
+run pacman -Syu --noconfirm --noprogressbar
+run pacman -S --noconfirm --noprogressbar --needed fish git base-devel neovim
 run /root/install.sh
