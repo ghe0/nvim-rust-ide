@@ -41,6 +41,8 @@ vim.api.nvim_set_keymap( 'n', '<F6>', ':w <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'i', '<F6>', '<ESC> :w <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F7>', ':NvimTreeToggle <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F8>', ':NvimTreeFindFile <CR>', {noremap = true})
+vim.api.nvim_set_keymap( 'n', '<UP>', 'gk', {noremap = true})
+vim.api.nvim_set_keymap( 'n', '<DOWN>', 'gj', {noremap = true})
 
 require('plugins')
 require'lspconfig'.rust_analyzer.setup({})
