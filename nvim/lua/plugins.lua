@@ -13,9 +13,11 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
-  use "savq/melange"
   use 'jacoborus/tender.vim'
   use 'vyperlang/vim-vyper'
-  use 'kyazdani42/nvim-tree.lua'
+  use 'nvim-tree/nvim-tree.lua'
+  use 'ellisonleao/gruvbox.nvim'
+  use 'j-hui/fidget.nvim'
+  use 'savq/melange-nvim'
 end)
 

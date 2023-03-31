@@ -1,3 +1,6 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.opt.mouse = ""
 vim.opt.number = true
 vim.opt.laststatus = 2
@@ -8,7 +11,8 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.softtabstop = 2
 vim.opt.foldmethod = "indent"
-vim.opt.foldnestmax = 2
+vim.opt.foldnestmax = 4
+vim.opt.foldlevel = 10
 vim.cmd [[
 set foldtext=CustomFoldText()
 
@@ -16,7 +20,7 @@ function! CustomFoldText()
   let indentation = indent(v:foldstart - 1)
   let foldSize = 1 + v:foldend - v:foldstart
   let foldSizeStr = " " . foldSize . " lines "
-  let foldLevelStr = "+--"
+  let foldLevelStr = "  +--"
   let expansionString = repeat(" ", indentation)
 
   return expansionString . foldLevelStr . foldSizeStr
@@ -186,7 +190,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 end
 
 local lspconfig = require'lspconfig'
@@ -226,3 +230,5 @@ require("nvim-tree").setup({
     }
   },
 })
+
+require"fidget".setup{}
