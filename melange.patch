@@ -1,0 +1,35 @@
+diff --git a/colors/melange.lua b/colors/melange.lua
+index 01ce786..8133c3a 100644
+--- a/colors/melange.lua
++++ b/colors/melange.lua
+@@ -44,7 +44,7 @@ local highlight_groups = {
+   LineNr = { fg = a.ui },
+   CursorLineNr = { fg = c.yellow },
+ 
+-  Folded = { fg = a.com, bg = d.cyan },
++  Folded = { fg = a.com, bg = d.black },
+   FoldColumn = 'LineNr',
+   SignColumn = 'LineNr',
+ 
+@@ -90,7 +90,7 @@ local highlight_groups = {
+   DiffAdd = { bg = d.green },
+   DiffChange = { bg = d.magenta },
+   DiffDelete = { bg = d.red },
+-  DiffText = { bg = d.blue },
++  DiffText = { bg = d.yellow },
+ 
+   DiffAdded = 'DiffAdd',
+   DiffRemoved = 'DiffDelete',
+diff --git a/lua/melange/palettes/dark.lua b/lua/melange/palettes/dark.lua
+index 7d5c8bb..3e69764 100644
+--- a/lua/melange/palettes/dark.lua
++++ b/lua/melange/palettes/dark.lua
+@@ -1,7 +1,7 @@
+ -- stylua: ignore
+ return {
+   a = {
+-    bg      = "#292522",
++    bg      = "#000000",
+     float   = "#34302C",
+     sel     = "#403A36",
+     ui      = "#867462",
