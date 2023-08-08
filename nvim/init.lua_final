@@ -1,7 +1,6 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.opt.mouse = ""
 vim.opt.number = true
 vim.opt.laststatus = 2
 vim.opt.wildmode = "longest,list"
@@ -43,21 +42,40 @@ vim.api.nvim_set_keymap( 'n', '<F5>', ':terminal % <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F5>', ':! cargo run --quiet <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F6>', ':w <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'i', '<F6>', '<ESC> :w <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F7>', ':NvimTreeToggle <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F8>', ':NvimTreeFindFile <CR>', {noremap = true})
+vim.api.nvim_set_keymap( 'n', '<F7>', ':NvimTreeFindFile <CR>', {noremap = true})
+vim.api.nvim_set_keymap( 'n', '<F8>', ':NvimTreeClose <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<UP>', 'gk', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<DOWN>', 'gj', {noremap = true})
 
 require('plugins')
 
+require("gruvbox").setup({
+  contrast = "hard",
+  overrides = {
+    Normal = {bg = "#000000"},
+    SignColumn = {bg = "#000000"},
+    Highlight = {bg = "#000000"},
+    Folded = {bg = "#000000"},
+    DiagnosticSignError = { bg = "#000000" },
+    DiagnosticSignWarn = {  bg = "#000000" },
+    DiagnosticSignInfo = {  bg = "#000000" },
+    DiagnosticSignHint = {  bg = "#000000" },
+  },
+})
+
 filename = vim.api.nvim_buf_get_name(0)
 is_go_file = filename:sub(-3) == ".go"
+is_ts_file = filename:sub(-3) == ".js" or filename:sub(-3) == ".ts" or filename:sub(-3) == "sol"
 nvim_theme = 'melange'
 lualine_theme = 'gruvbox_dark'
 if (is_go_file)
 then
   nvim_theme = 'tender'
   lualine_theme = 'modus-vivendi'
+end
+if (is_ts_file)
+then
+  nvim_theme = 'gruvbox'
 end
 
 vim.cmd("colorscheme " .. nvim_theme)
@@ -162,7 +180,7 @@ cmp.setup({
   formatting = {
     fields = { "kind", "abbr" },
     format = lspkind.cmp_format({
-      mode = "symbol",
+      mode = "symbol_text",
     }),
   },
 })
@@ -171,7 +189,7 @@ local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -194,21 +212,24 @@ local on_attach = function(client, bufnr)
 end
 
 local lspconfig = require'lspconfig'
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  settings = {
-    ["rust-analyzer"] = {
-      rustfmt = {
-        extraArgs = { "+nightly", },
-      },
-    }
-  }
-}
+
 lspconfig.move_analyzer.setup{
   on_attach = on_attach
 }
 lspconfig.gopls.setup{
   on_attach = on_attach
+}
+lspconfig.tsserver.setup{
+  on_attach = on_attach,
+}
+lspconfig.solidity_ls.setup{
+  on_attach = on_attach,
+}
+-- require'lspconfig'.solc.setup{
+--   on_attach = on_attach,
+-- }
+lspconfig.solidity.setup{
+  on_attach = on_attach,
 }
 
 require("nvim-tree").setup({
@@ -232,3 +253,19 @@ require("nvim-tree").setup({
 })
 
 require"fidget".setup{}
+
+vim.opt.mouse = ""
+
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  settings = {
+    ["rust-analyzer"] = {
+      rustfmt = {
+        extraArgs = { "+nightly" },
+      },
+      -- cargo = {
+      --   features = { "ssr" },
+      -- },
+    }
+  }
+}
