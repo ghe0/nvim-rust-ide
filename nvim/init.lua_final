@@ -47,6 +47,15 @@ vim.api.nvim_set_keymap( 'n', '<F8>', ':NvimTreeClose <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<UP>', 'gk', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<DOWN>', 'gj', {noremap = true})
 
+vim.api.nvim_set_keymap('n', '<kRight>', '<C-W>l', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<kLeft>', '<C-W>h', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<kDown>', '<C-W>j', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<kUp>', '<C-W>k', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-kRight>', '<C-W>L', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-kLeft>', '<C-W>H', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-kUp>', '<C-W>K', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<S-kDown>', '<C-W>J', { noremap = true, silent = true })
+
 require('plugins')
 
 require("gruvbox").setup({
@@ -104,7 +113,7 @@ require('lualine').setup {
       'branch',
       {
         'diff',
-        symbols = { added = ' ', modified = '柳', removed = ' ' },
+        symbols = { added = ' ', modified = '🙂', removed = ' ' },
         diff_color = {
           added = { fg = '#33DD33' },
           modified = { fg = '#AAAAFF' },
@@ -240,8 +249,6 @@ require("nvim-tree").setup({
   },
   sort_by = "case_sensitive",
   view = {
-    hide_root_folder = true,
-    adaptive_size = true,
   },
   renderer = {
     group_empty = true,
