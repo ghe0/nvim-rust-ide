@@ -1,8 +1,8 @@
 diff --git a/colors/melange.lua b/colors/melange.lua
-index 01ce786..8133c3a 100644
+index ba27564..0e0af43 100644
 --- a/colors/melange.lua
 +++ b/colors/melange.lua
-@@ -44,7 +44,7 @@ local highlight_groups = {
+@@ -51,7 +51,7 @@ for name, attrs in pairs {
    LineNr = { fg = a.ui },
    CursorLineNr = { fg = c.yellow },
  
@@ -11,7 +11,7 @@ index 01ce786..8133c3a 100644
    FoldColumn = 'LineNr',
    SignColumn = 'LineNr',
  
-@@ -90,7 +90,7 @@ local highlight_groups = {
+@@ -97,7 +97,7 @@ for name, attrs in pairs {
    DiffAdd = { bg = d.green },
    DiffChange = { bg = d.magenta },
    DiffDelete = { bg = d.red },

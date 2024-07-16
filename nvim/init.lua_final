@@ -38,12 +38,8 @@ vim.cmd [[let g:gitgutter_set_sign_backgrounds = 1]]
 vim.api.nvim_set_keymap( 'n', '<F2>', ':set invnu <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F3>', ':set mouse=a <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<F4>', ':set mouse="" <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F5>', ':terminal % <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F5>', ':! cargo run --quiet <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F6>', ':w <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'i', '<F6>', '<ESC> :w <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F7>', ':NvimTreeFindFile <CR>', {noremap = true})
-vim.api.nvim_set_keymap( 'n', '<F8>', ':NvimTreeClose <CR>', {noremap = true})
+vim.api.nvim_set_keymap( 'n', '<F5>', ':w <CR>', {noremap = true})
+vim.api.nvim_set_keymap( 'i', '<F5>', '<ESC> :w <CR>', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<UP>', 'gk', {noremap = true})
 vim.api.nvim_set_keymap( 'n', '<DOWN>', 'gj', {noremap = true})
 
@@ -73,19 +69,8 @@ require("gruvbox").setup({
 })
 
 filename = vim.api.nvim_buf_get_name(0)
-is_go_file = filename:sub(-3) == ".go"
-is_ts_file = filename:sub(-3) == ".js" or filename:sub(-3) == ".ts" or filename:sub(-3) == "sol"
 nvim_theme = 'melange'
 lualine_theme = 'gruvbox_dark'
-if (is_go_file)
-then
-  nvim_theme = 'tender'
-  lualine_theme = 'modus-vivendi'
-end
-if (is_ts_file)
-then
-  nvim_theme = 'gruvbox'
-end
 
 vim.cmd("colorscheme " .. nvim_theme)
 require('lualine').setup {
@@ -113,7 +98,7 @@ require('lualine').setup {
       'branch',
       {
         'diff',
-        symbols = { added = ' ', modified = '🙂', removed = ' ' },
+        symbols = { added = '+', modified = '~', removed = '-' },
         diff_color = {
           added = { fg = '#33DD33' },
           modified = { fg = '#AAAAFF' },
@@ -198,7 +183,6 @@ local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -211,53 +195,14 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 end
 
 local lspconfig = require'lspconfig'
-
-lspconfig.move_analyzer.setup{
-  on_attach = on_attach
-}
-lspconfig.gopls.setup{
-  on_attach = on_attach
-}
-lspconfig.tsserver.setup{
-  on_attach = on_attach,
-}
-lspconfig.solidity_ls.setup{
-  on_attach = on_attach,
-}
--- require'lspconfig'.solc.setup{
---   on_attach = on_attach,
--- }
-lspconfig.solidity.setup{
-  on_attach = on_attach,
-}
-
-require("nvim-tree").setup({
-  diagnostics = {
-    enable = true,
-    show_on_dirs = true,
-    icons = { error = ' ', warning = ' ', info = ' ', hint = '★ ' }
-  },
-  sort_by = "case_sensitive",
-  view = {
-  },
-  renderer = {
-    group_empty = true,
-    special_files = { "main.rs", "index.html", "src" },
-    icons = {
-      git_placement = "after",
-    }
-  },
-})
 
 require"fidget".setup{}
 
@@ -276,3 +221,50 @@ lspconfig.rust_analyzer.setup {
     }
   }
 }
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<F6>', builtin.find_files, {})
+vim.keymap.set('n', '<F7>', builtin.live_grep, {})
+vim.keymap.set('n', '<F8>', builtin.git_status, {})
+vim.keymap.set('n', '<space>q', builtin.diagnostics, {})
+vim.keymap.set('n', 'gr',   builtin.lsp_references, {})
+vim.keymap.set('n', 'gi',   builtin.lsp_implementations, {})
+
+require('telescope').setup{
+  defaults = {
+    layout_strategy = 'flex',
+    layout_config = {
+      flex = {
+        flip_columns = 130
+      },
+      horizontal = {
+        width = 0.99,
+        height = 0.99,
+        preview_width = 0.6,
+      },
+      vertical = {
+        width = 0.99,
+        height = 0.99,
+        preview_height = 0.6,
+        preview_cutoff = 0,
+      },
+    },
+    mappings = {
+    }
+  },
+  pickers = {
+  },
+  extensions = {
+  }
+}
+
+vim.cmd [[
+  highlight TelescopeNormal guibg=#0f0f0f
+  highlight TelescopeBorder guibg=#0f0f0f
+  highlight TelescopePromptNormal guibg=#0f0f0f
+  highlight TelescopePromptBorder guibg=#0f0f0f
+  highlight TelescopeResultsNormal guibg=#0f0f0f
+  highlight TelescopeResultsBorder guibg=#0f0f0f
+  highlight TelescopePreviewNormal guibg=#0f0f0f
+  highlight TelescopePreviewBorder guibg=#0f0f0f
+]]
