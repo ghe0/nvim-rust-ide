@@ -212,11 +212,11 @@ lspconfig.rust_analyzer.setup {
   on_attach = on_attach,
   settings = {
     ["rust-analyzer"] = {
-      rustfmt = {
-        extraArgs = { "+nightly" },
-      },
+      -- rustfmt = {
+      --   extraArgs = { "+nightly" },
+      -- },
       -- cargo = {
-      --   features = { "ssr" },
+      --   features = { "ratls" },
       -- },
     }
   }
@@ -224,8 +224,10 @@ lspconfig.rust_analyzer.setup {
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<F6>', builtin.find_files, {})
+vim.keymap.set('i', '<F6>', '<ESC> :Telescope find_files <CR>', {})
 vim.keymap.set('n', '<F7>', builtin.live_grep, {})
-vim.keymap.set('n', '<F8>', builtin.git_status, {})
+vim.keymap.set('i', '<F7>', '<ESC> :Telescope live_grep <CR>', {})
+vim.keymap.set('n', '<F8>', builtin.buffers, {})
 vim.keymap.set('n', '<space>q', builtin.diagnostics, {})
 vim.keymap.set('n', 'gr',   builtin.lsp_references, {})
 vim.keymap.set('n', 'gi',   builtin.lsp_implementations, {})
@@ -250,6 +252,10 @@ require('telescope').setup{
       },
     },
     mappings = {
+      i = {
+        ["<Tab>"] = "move_selection_next",
+        ["<S-Tab>"] = "move_selection_previous",
+      }
     }
   },
   pickers = {
@@ -268,3 +274,5 @@ vim.cmd [[
   highlight TelescopePreviewNormal guibg=#0f0f0f
   highlight TelescopePreviewBorder guibg=#0f0f0f
 ]]
+
+

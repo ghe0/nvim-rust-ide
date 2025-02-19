@@ -12,12 +12,18 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-buffer'
   use 'vyperlang/vim-vyper'
+  -- use 'nvim-tree/nvim-tree.lua'
+  -- use 'nvim-tree/nvim-web-devicons'
   use 'ellisonleao/gruvbox.nvim'
   use 'j-hui/fidget.nvim'
   use 'savq/melange-nvim'
   use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'}, { 'BurntSushi/ripgrep'} }
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
   }
 end)
 
